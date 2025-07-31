@@ -25,9 +25,9 @@ namespace TwoOnPlane.Netcode.Rpc
             foreach ((RefRO<NetworkId> networkId, Entity entity)
                 in SystemAPI.Query<RefRO<NetworkId>>().WithEntityAccess().WithNone<NetworkStreamInGame>())
             {
-                buffer.AddComponent<NetworkStreamInGame>(entity);
+                buffer.AddComponent(entity, new NetworkStreamInGame());
                 Entity requestedPlayer = buffer.CreateEntity();
-                buffer.AddComponent<EnterGameRpc>(requestedPlayer);
+                buffer.AddComponent(requestedPlayer, new EnterGameRpc());
                 buffer.AddComponent(requestedPlayer, new SendRpcCommandRequest
                 {
                     TargetConnection = entity
@@ -36,5 +36,10 @@ namespace TwoOnPlane.Netcode.Rpc
             }
             buffer.Playback(state.EntityManager);
         }
+    }
+
+    public struct EnterGameRpc : IRpcCommand
+    {
+
     }
 }

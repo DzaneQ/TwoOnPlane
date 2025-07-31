@@ -13,16 +13,13 @@ namespace TwoOnPlane.Player
             {
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
-                AddComponent(entity, new Respawnable
-                {
-                    SpawnLocation = authoring.transform.position
-                });
+                AddComponent(entity, new Respawnable());
             }
         }
     }
 
     public struct Respawnable : IComponentData
     {
-        public float3 SpawnLocation;
+
     }
 }

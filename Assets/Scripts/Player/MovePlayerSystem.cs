@@ -2,7 +2,9 @@ using System.Numerics;
 using TwoOnPlane.Singleton;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
+using Unity.VisualScripting;
 
 namespace TwoOnPlane.Player
 {
@@ -28,6 +30,8 @@ namespace TwoOnPlane.Player
                 float3 directionUnit = math.normalize(targetPosition - localTransform.ValueRO.Position);
                 float moveSpeed = statHolder.ValueRO.Speed + 3f;
                 localTransform.ValueRW.Position += moveSpeed * deltaTime * directionUnit;
+                float rotationY = math.Euler(localTransform.ValueRW.Rotation).y;
+                localTransform.ValueRW.Rotation = quaternion.Euler(new float3(0, rotationY, 0));
             }
         }
     }
