@@ -6,7 +6,7 @@ using Unity.Physics;
 using Unity.Transforms;
 using Unity.VisualScripting;
 
-namespace TwoOnPlane.Player
+namespace TwoOnPlane.Players
 {
     public partial class MovePlayerSystem : SystemBase
     {

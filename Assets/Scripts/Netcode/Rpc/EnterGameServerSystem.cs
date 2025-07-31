@@ -1,4 +1,5 @@
-using TwoOnPlane.Player;
+using System.Linq;
+using TwoOnPlane.Players;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -28,6 +29,12 @@ namespace TwoOnPlane.Netcode.Rpc
             foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, Entity request) 
                 in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
             {
+                int playerCount = state.GetEntityQuery(ComponentType.ReadOnly<GhostOwner>()).CalculateEntityCount();
+                if (playerCount >= 2)
+                {
+                    buffer.DestroyEntity(request);
+                    continue;
+                }    
                 buffer.AddComponent<NetworkStreamInGame>(requestSrc.ValueRO.SourceConnection);
                 int sourceId = SystemAPI.GetComponent<NetworkId>(requestSrc.ValueRO.SourceConnection).Value;
                 Entity player = buffer.Instantiate(spawner.Player);

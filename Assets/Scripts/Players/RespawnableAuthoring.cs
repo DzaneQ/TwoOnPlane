@@ -1,9 +1,9 @@
-using TwoOnPlane.Player;
+using TwoOnPlane.Players;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace TwoOnPlane.Player
+namespace TwoOnPlane.Players
 {
     public class RespawnableAuthoring : MonoBehaviour
     {

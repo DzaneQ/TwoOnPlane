@@ -4,7 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace TwoOnPlane.Player
+namespace TwoOnPlane.Players
 {
     public class CursorFollowerAuthoring : MonoBehaviour
     {

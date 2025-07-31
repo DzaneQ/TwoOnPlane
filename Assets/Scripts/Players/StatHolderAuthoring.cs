@@ -1,7 +1,7 @@
 using Unity.Entities;
 using UnityEngine;
 
-namespace TwoOnPlane.Player
+namespace TwoOnPlane.Players
 {
     public class StatHolderAuthoring : MonoBehaviour
     {

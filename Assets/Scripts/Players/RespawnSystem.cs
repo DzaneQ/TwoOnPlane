@@ -1,11 +1,11 @@
 using TMPro;
-using TwoOnPlane.Player;
+using TwoOnPlane.Players;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace TwoOnPlane.Player
+namespace TwoOnPlane.Players
 {
     partial struct RespawnSystem : ISystem
     {
