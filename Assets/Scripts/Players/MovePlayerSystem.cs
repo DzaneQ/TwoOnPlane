@@ -1,30 +1,36 @@
 using System.Numerics;
-using TwoOnPlane.Singleton;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace TwoOnPlane.Players
 {
+    [UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
     public partial class MovePlayerSystem : SystemBase
     {
-        private CursorSingleton _cursorSingleton;
+        private Camera cam;
 
         protected override void OnStartRunning()
         {
-            _cursorSingleton = CursorSingleton.s_Instance;
+            cam = Camera.main;
         }
 
         protected override void OnUpdate()
         {
-            float3 targetPosition = _cursorSingleton.GetCursorWorldPosition();
             float deltaTime = SystemAPI.Time.DeltaTime;
 
             foreach ((RefRW<LocalTransform> localTransform, RefRO<CursorFollower> cursorFollower, RefRO<StatHolder> statHolder)
                 in SystemAPI.Query<RefRW<LocalTransform>, RefRO<CursorFollower>, RefRO<StatHolder>>())
             {
+                float3 inputPosition = new(cursorFollower.ValueRO.Horizontal, cursorFollower.ValueRO.Vertical, cursorFollower.ValueRO.CameraDistance);
+                Debug.Log($"Input position: ({inputPosition.x}, {inputPosition.y}, {inputPosition.z})");
+                float3 targetPosition = cam.ScreenToWorldPoint(inputPosition);
+                Debug.Log($"Target position: ({targetPosition.x}, {targetPosition.y}, {targetPosition.z})");
                 targetPosition.y = localTransform.ValueRO.Position.y;
                 if (targetPosition.Equals(float3.zero)) continue;
                 float3 directionUnit = math.normalize(targetPosition - localTransform.ValueRO.Position);

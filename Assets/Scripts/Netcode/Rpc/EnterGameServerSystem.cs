@@ -29,7 +29,11 @@ namespace TwoOnPlane.Netcode.Rpc
             foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, Entity request) 
                 in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
             {
-                int playerCount = state.GetEntityQuery(ComponentType.ReadOnly<GhostOwner>()).CalculateEntityCount();
+                int playerCount = 0;
+                foreach (RefRO<GhostOwner> owner in SystemAPI.Query<RefRO<GhostOwner>>())
+                {
+                    playerCount++;
+                }    
                 if (playerCount >= 2)
                 {
                     buffer.DestroyEntity(request);
@@ -44,6 +48,9 @@ namespace TwoOnPlane.Netcode.Rpc
                 buffer.AddComponent(player, new GhostOwner
                 {
                     NetworkId = sourceId
+                });
+                buffer.AppendToBuffer(requestSrc.ValueRO.SourceConnection, new LinkedEntityGroup { 
+                    Value = player
                 });
                 //UnityEngine.Debug.Log($"Rpc received from: {sourceId}");
                 buffer.DestroyEntity(request);
