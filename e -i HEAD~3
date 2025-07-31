@@ -1,0 +1,29 @@
+[33mcommit d7c4dd3b95c1c70762437405814b7748ce7b8bee[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mfeat-move-player[m[33m)[m
+Author: DzaneQ <lucker1996@gmail.com>
+Date:   Sat Jul 26 17:57:36 2025 +0200
+
+    feat: Player respawns when falling off the plane
+
+[33mcommit bb4a6947231133d76d74404be7c7a3b3798dc6c9[m[33m ([m[1;31morigin/feat-move-player[m[33m)[m
+Author: DzaneQ <lucker1996@gmail.com>
+Date:   Sat Jul 26 17:17:30 2025 +0200
+
+    fix: Player moves towards cursor correctly
+
+[33mcommit e5f3227a1340b85a74f7585e563d759bc4f8e4bc[m
+Author: DzaneQ <lucker1996@gmail.com>
+Date:   Sat Jul 26 00:31:43 2025 +0200
+
+    feat: Attempt to move a player towards cursor
+
+[33mcommit 2d831902088503e749d8b3c07dce00fedce58048[m
+Author: DzaneQ <lucker1996@gmail.com>
+Date:   Thu Jul 24 20:44:54 2025 +0200
+
+    feat: A plane and a player
+
+[33mcommit dedee26e14130bc57434958057c1a32a8f7499cc[m
+Author: DzaneQ <78421984+DzaneQ@users.noreply.github.com>
+Date:   Thu Jul 24 20:48:34 2025 +0200
+
+    Initial commit
