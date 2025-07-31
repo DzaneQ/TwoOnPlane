@@ -3,23 +3,26 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RespawnableAuthoring : MonoBehaviour
+namespace TwoOnPlane.Player
 {
-    class Baker : Baker<RespawnableAuthoring>
+    public class RespawnableAuthoring : MonoBehaviour
     {
-        public override void Bake(RespawnableAuthoring authoring)
+        class Baker : Baker<RespawnableAuthoring>
         {
-            Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-
-            AddComponent(entity, new Respawnable
+            public override void Bake(RespawnableAuthoring authoring)
             {
-                SpawnLocation = authoring.transform.position
-            });
+                Entity entity = GetEntity(TransformUsageFlags.Dynamic);
+
+                AddComponent(entity, new Respawnable
+                {
+                    SpawnLocation = authoring.transform.position
+                });
+            }
         }
     }
-}
 
-public struct Respawnable : IComponentData
-{
-    public float3 SpawnLocation;
+    public struct Respawnable : IComponentData
+    {
+        public float3 SpawnLocation;
+    }
 }

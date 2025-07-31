@@ -5,16 +5,19 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-partial struct RespawnSystem : ISystem
+namespace TwoOnPlane.Player
 {
-    [BurstCompile]
-    public void OnUpdate(ref SystemState state)
+    partial struct RespawnSystem : ISystem
     {
-        foreach ((RefRW<LocalTransform> localTransform, RefRO<Respawnable> respawnable)
-            in SystemAPI.Query<RefRW<LocalTransform>, RefRO<Respawnable>>())
+        [BurstCompile]
+        public void OnUpdate(ref SystemState state)
         {
-            if (localTransform.ValueRO.Position.y > -3) continue;
-            localTransform.ValueRW.Position = respawnable.ValueRO.SpawnLocation;
+            foreach ((RefRW<LocalTransform> localTransform, RefRO<Respawnable> respawnable)
+                in SystemAPI.Query<RefRW<LocalTransform>, RefRO<Respawnable>>())
+            {
+                if (localTransform.ValueRO.Position.y > -3) continue;
+                localTransform.ValueRW.Position = respawnable.ValueRO.SpawnLocation;
+            }
         }
     }
 }
