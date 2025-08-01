@@ -11,27 +11,16 @@ using UnityEngine;
 namespace TwoOnPlane.Players
 {
     [UpdateInGroup(typeof(PredictedSimulationSystemGroup))]
-    public partial class MovePlayerSystem : SystemBase
+    partial struct MovePlayerSystem : ISystem
     {
-        private Camera cam;
-
-        protected override void OnStartRunning()
-        {
-            cam = Camera.main;
-        }
-
-        protected override void OnUpdate()
+        public void OnUpdate(ref SystemState state)
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
 
             foreach ((RefRW<LocalTransform> localTransform, RefRO<CursorFollower> cursorFollower, RefRO<StatHolder> statHolder)
                 in SystemAPI.Query<RefRW<LocalTransform>, RefRO<CursorFollower>, RefRO<StatHolder>>())
             {
-                float3 inputPosition = new(cursorFollower.ValueRO.Horizontal, cursorFollower.ValueRO.Vertical, cursorFollower.ValueRO.CameraDistance);
-                Debug.Log($"Input position: ({inputPosition.x}, {inputPosition.y}, {inputPosition.z})");
-                float3 targetPosition = cam.ScreenToWorldPoint(inputPosition);
-                Debug.Log($"Target position: ({targetPosition.x}, {targetPosition.y}, {targetPosition.z})");
-                targetPosition.y = localTransform.ValueRO.Position.y;
+                float3 targetPosition = new(cursorFollower.ValueRO.Horizontal, localTransform.ValueRO.Position.y, cursorFollower.ValueRO.Vertical);
                 if (targetPosition.Equals(float3.zero)) continue;
                 float3 directionUnit = math.normalize(targetPosition - localTransform.ValueRO.Position);
                 float moveSpeed = statHolder.ValueRO.Speed + 3f;

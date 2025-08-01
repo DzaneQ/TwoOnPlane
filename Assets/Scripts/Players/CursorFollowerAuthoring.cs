@@ -11,17 +11,11 @@ namespace TwoOnPlane.Players
             public override void Bake(CursorFollowerAuthoring authoring)
             {
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-                Camera cam = Camera.main;
-                float cameraDistance = cam.transform.position.y;
-                Vector3 screenVector = cam.WorldToScreenPoint(authoring.transform.position);
-
-                Debug.Log($"Screen vector: {screenVector.x}, {screenVector.y}");
 
                 AddComponent(entity, new CursorFollower
                 {
-                    Horizontal = screenVector.x,
-                    Vertical = screenVector.y,
-                    CameraDistance = cameraDistance
+                    Horizontal = authoring.transform.position.x,
+                    Vertical = authoring.transform.position.z,
                 });
             }
         }
@@ -31,6 +25,5 @@ namespace TwoOnPlane.Players
     {
         public float Horizontal;
         public float Vertical;
-        public float CameraDistance;
     }
 }

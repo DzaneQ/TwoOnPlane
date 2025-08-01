@@ -10,25 +10,33 @@ using UnityEngine;
 namespace TwoOnPlane.Players
 {
     [UpdateInGroup(typeof(GhostInputSystemGroup))]
-    partial struct CursorInputSystem : ISystem
+    public partial class CursorInputSystem : SystemBase
     {
+        private Camera _cam;
+        private float _distance;
 
-        [BurstCompile]
-        public void OnCreate(ref SystemState state)
+        protected override void OnStartRunning()
         {
-            state.RequireForUpdate<NetworkStreamInGame>();
-            state.RequireForUpdate<CursorFollower>();
+            RequireForUpdate<NetworkStreamInGame>();
+            RequireForUpdate<CursorFollower>();
         }
 
-        [BurstCompile]
-        public void OnUpdate(ref SystemState state)
+        protected override void OnUpdate()
         {
+            if (_cam == null)
+            {
+                _cam = Camera.main;
+                if (_cam == null) return;
+                _distance = _cam.transform.position.y;
+            }
             foreach (RefRW<CursorFollower> cursorFollower in SystemAPI.Query<RefRW<CursorFollower>>().WithAll<GhostOwnerIsLocal>())
             {
                 if (!Input.GetMouseButtonDown(0)) continue;
                 float3 inputPosition = Input.mousePosition;
-                cursorFollower.ValueRW.Horizontal = inputPosition.x;
-                cursorFollower.ValueRW.Vertical = inputPosition.y;
+                inputPosition.z = _distance;
+                float3 worldPosition = _cam.ScreenToWorldPoint(inputPosition);
+                cursorFollower.ValueRW.Horizontal = worldPosition.x;
+                cursorFollower.ValueRW.Vertical = worldPosition.z;
             }
         }
     }
