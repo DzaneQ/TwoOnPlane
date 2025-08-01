@@ -32,7 +32,6 @@ namespace TwoOnPlane.Netcode
                 {
                     TargetConnection = entity
                 });
-                //UnityEngine.Debug.Log($"Rpc sent from {networkId.ValueRO.Value}");
             }
             buffer.Playback(state.EntityManager);
         }

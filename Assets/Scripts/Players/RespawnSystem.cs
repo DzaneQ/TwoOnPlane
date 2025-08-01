@@ -32,8 +32,6 @@ namespace TwoOnPlane.Players
                 // Set cursor target to the spawn point
                 cursorFollower.ValueRW.Horizontal = localTransform.ValueRO.Position.x;
                 cursorFollower.ValueRW.Vertical = localTransform.ValueRO.Position.z;
-                //UnityEngine.Debug.Log($"Respawn on local transform: {localTransform.ValueRO.Position.x}, {localTransform.ValueRO.Position.z}");
-                //UnityEngine.Debug.Log($"Cursor following to: {cursorFollower.ValueRO.Horizontal}, {cursorFollower.ValueRO.Vertical}");
             }
         }
     }

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 1419762456}
   - component: {fileID: 1419762455}
   - component: {fileID: 1419762459}
+  - component: {fileID: 1419762460}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -244,6 +245,19 @@ MonoBehaviour:
   FirstPlayerPrefab: {fileID: 3600255974790375987, guid: e36951d1d15121d43898a1f408b277be, type: 3}
   SecondPlayerPrefab: {fileID: 3600255974790375987, guid: 6f00924f782397448b40e57b56dd973f, type: 3}
   SpawnRange: 3
+--- !u!114 &1419762460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419762454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089b3b8ef4d92e941a6381e187d8cd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoinPrefab: {fileID: 8263190541439609608, guid: e14ffdfbb2178cd41b63e9b0c1493893, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

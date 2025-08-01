@@ -50,7 +50,6 @@ namespace TwoOnPlane.Netcode
                 buffer.AppendToBuffer(requestSrc.ValueRO.SourceConnection, new LinkedEntityGroup { 
                     Value = player
                 });
-                //UnityEngine.Debug.Log($"Rpc received from: {sourceId}");
                 buffer.DestroyEntity(request);
             }
             buffer.Playback(state.EntityManager);
