@@ -7,6 +7,8 @@ using Unity.Physics;
 using Unity.Transforms;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace TwoOnPlane.Players
 {
@@ -21,12 +23,29 @@ namespace TwoOnPlane.Players
                 in SystemAPI.Query<RefRW<LocalTransform>, RefRO<CursorFollower>, RefRO<StatHolder>>())
             {
                 float3 targetPosition = new(cursorFollower.ValueRO.Horizontal, localTransform.ValueRO.Position.y, cursorFollower.ValueRO.Vertical);
-                if (targetPosition.Equals(float3.zero)) continue;
-                float3 directionUnit = math.normalize(targetPosition - localTransform.ValueRO.Position);
+                float3 path = targetPosition - localTransform.ValueRO.Position;
+                // If player's location is almost at the the cursor, don't move
+                if (math.length(path) < 0.01f)
+                {
+                    float rotationY = math.Euler(localTransform.ValueRW.Rotation).y;
+                    localTransform.ValueRW.Rotation = quaternion.Euler(new float3(0, rotationY, 0));
+                    // animation stand
+                    continue;
+                }
+                // animation move
+                float3 directionUnit = math.normalize(path);
                 float moveSpeed = statHolder.ValueRO.Speed + 3f;
-                localTransform.ValueRW.Position += moveSpeed * deltaTime * directionUnit;
-                float rotationY = math.Euler(localTransform.ValueRW.Rotation).y;
-                localTransform.ValueRW.Rotation = quaternion.Euler(new float3(0, rotationY, 0));
+                float3 distance = moveSpeed * deltaTime * directionUnit;
+                // If player has to move less than the frame distance, set position to the cursor 
+                if (math.length(distance) >= math.length(path))
+                {
+                    localTransform.ValueRW.Position = targetPosition;
+                    continue;
+                }
+                localTransform.ValueRW.Position += distance;
+                // Rotate player towards where player moves
+                float newRotationY = math.Euler(quaternion.LookRotation(directionUnit, math.up())).y;
+                localTransform.ValueRW.Rotation = quaternion.Euler(new float3(0, newRotationY, 0));
             }
         }
     }

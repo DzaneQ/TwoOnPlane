@@ -12,18 +12,14 @@ namespace TwoOnPlane.Players
             {
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
-                AddComponent(entity, new CursorFollower
-                {
-                    Horizontal = authoring.transform.position.x,
-                    Vertical = authoring.transform.position.z,
-                });
+                AddComponent(entity, new CursorFollower());
             }
         }
     }
 
     public struct CursorFollower : IInputComponentData
     {
-        public float Horizontal;
-        public float Vertical;
+        [GhostField] public float Horizontal;
+        [GhostField] public float Vertical;
     }
 }

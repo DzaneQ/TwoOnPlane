@@ -241,8 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e774c279fdbcf3744a8bb080ea842286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 3600255974790375987, guid: e36951d1d15121d43898a1f408b277be, type: 3}
-  SpawnRange: 0.5
+  FirstPlayerPrefab: {fileID: 3600255974790375987, guid: e36951d1d15121d43898a1f408b277be, type: 3}
+  SecondPlayerPrefab: {fileID: 3600255974790375987, guid: 6f00924f782397448b40e57b56dd973f, type: 3}
+  SpawnRange: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
