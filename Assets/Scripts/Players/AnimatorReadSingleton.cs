@@ -9,17 +9,14 @@ namespace TwoOnPlane.Players
         [SerializeField] private GameObject firstPlayerPrefab;
         [SerializeField] private GameObject secondPlayerPrefab;
 
-        private Animator firstAnimator;
-        private Animator secondAnimator;
-
-        public Animator FirstAnimator => firstAnimator;
-        public Animator SecondAnimator => secondAnimator;
+        public Animator FirstAnimator { get; private set; }
+        public Animator SecondAnimator { get; private set; }
 
         void Awake()
         {
             s_Instance = this;
-            firstAnimator = firstPlayerPrefab.GetComponentInChildren<Animator>();
-            secondAnimator = secondPlayerPrefab.GetComponentInChildren<Animator>();
+            FirstAnimator = firstPlayerPrefab.GetComponentInChildren<Animator>();
+            SecondAnimator = secondPlayerPrefab.GetComponentInChildren<Animator>();
         }
     }
 }

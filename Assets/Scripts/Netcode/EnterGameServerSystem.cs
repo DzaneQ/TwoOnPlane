@@ -17,6 +17,8 @@ namespace TwoOnPlane.Netcode
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<PlayerSpawner>();
+            state.RequireForUpdate<FirstPlayer>();
+            state.RequireForUpdate<SecondPlayer>();
             state.RequireForUpdate<NetworkId>();
         }
 
@@ -31,7 +33,7 @@ namespace TwoOnPlane.Netcode
                 in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
             {
                 int playerCount = 0;
-                foreach (RefRO<GhostOwner> owner in SystemAPI.Query<RefRO<GhostOwner>>())
+                foreach (RefRO<GhostOwner> _ in SystemAPI.Query<RefRO<GhostOwner>>())
                 {
                     playerCount++;
                 }    
@@ -42,7 +44,20 @@ namespace TwoOnPlane.Netcode
                 }    
                 buffer.AddComponent<NetworkStreamInGame>(requestSrc.ValueRO.SourceConnection);
                 int sourceId = SystemAPI.GetComponent<NetworkId>(requestSrc.ValueRO.SourceConnection).Value;
-                Entity player = playerCount == 0 ? buffer.Instantiate(spawner.FirstPlayer) : buffer.Instantiate(spawner.SecondPlayer);
+                Entity player = Entity.Null;
+                // If first player exists, instantiate second player
+                foreach (RefRO<FirstPlayer> _ in SystemAPI.Query<RefRO<FirstPlayer>>())
+                {
+                    player = buffer.Instantiate(spawner.SecondPlayer);
+                    buffer.AddComponent(player, new SecondPlayer());
+                    break;
+                }
+                // If second player not instantiated, instantiate first player
+                if (player == Entity.Null)
+                {
+                    player = buffer.Instantiate(spawner.FirstPlayer);
+                    buffer.AddComponent(player, new FirstPlayer());
+                }
                 buffer.SetComponent(player, LocalTransform.FromPosition(new float3(0, -5, 0)));
                 buffer.AddComponent(player, new GhostOwner
                 {
@@ -54,6 +69,7 @@ namespace TwoOnPlane.Netcode
                 buffer.DestroyEntity(request);
             }
             buffer.Playback(state.EntityManager);
+            buffer.Dispose();
         }
     }
 }
