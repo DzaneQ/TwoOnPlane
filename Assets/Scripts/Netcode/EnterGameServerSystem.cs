@@ -17,8 +17,6 @@ namespace TwoOnPlane.Netcode
         public void OnCreate(ref SystemState state)
         {
             state.RequireForUpdate<PlayerSpawner>();
-            state.RequireForUpdate<FirstPlayer>();
-            state.RequireForUpdate<SecondPlayer>();
             state.RequireForUpdate<NetworkId>();
         }
 
@@ -27,13 +25,12 @@ namespace TwoOnPlane.Netcode
         {
             EntityCommandBuffer buffer = new EntityCommandBuffer(Allocator.Temp);
             PlayerSpawner spawner = SystemAPI.GetSingleton<PlayerSpawner>();
-            float range = spawner.SpawnRange;
 
             foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, Entity request) 
                 in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
             {
                 int playerCount = 0;
-                foreach (RefRO<GhostOwner> _ in SystemAPI.Query<RefRO<GhostOwner>>())
+                foreach (RefRO<GhostOwner> x in SystemAPI.Query<RefRO<GhostOwner>>())
                 {
                     playerCount++;
                 }    
