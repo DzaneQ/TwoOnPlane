@@ -16,7 +16,6 @@ namespace TwoOnPlane.Players
             {
                 Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
-
                 AddComponent(entity, new PlayerSpawner
                     {
                         FirstPlayer = GetEntity(authoring.FirstPlayerPrefab, TransformUsageFlags.Dynamic),

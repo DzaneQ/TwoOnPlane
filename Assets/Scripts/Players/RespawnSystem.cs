@@ -32,6 +32,7 @@ namespace TwoOnPlane.Players
                 // Set cursor target to the spawn point
                 cursorFollower.ValueRW.Horizontal = localTransform.ValueRO.Position.x;
                 cursorFollower.ValueRW.Vertical = localTransform.ValueRO.Position.z;
+                cursorFollower.ValueRW.IsMoving = false;
             }
         }
     }
