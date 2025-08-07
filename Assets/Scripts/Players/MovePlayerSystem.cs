@@ -19,8 +19,8 @@ namespace TwoOnPlane.Players
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
 
-            foreach ((RefRW<LocalTransform> localTransform, RefRO<CursorFollower> cursorFollower, RefRO<StatHolder> statHolder)
-                in SystemAPI.Query<RefRW<LocalTransform>, RefRO<CursorFollower>, RefRO<StatHolder>>())
+            foreach ((RefRW<LocalTransform> localTransform, RefRW<CursorFollower> cursorFollower, RefRO<StatHolder> statHolder)
+                in SystemAPI.Query<RefRW<LocalTransform>, RefRW<CursorFollower>, RefRO<StatHolder>>())
             {
                 float3 targetPosition = new(cursorFollower.ValueRO.Horizontal, localTransform.ValueRO.Position.y, cursorFollower.ValueRO.Vertical);
                 float3 path = targetPosition - localTransform.ValueRO.Position;
@@ -29,10 +29,10 @@ namespace TwoOnPlane.Players
                 {
                     float rotationY = math.Euler(localTransform.ValueRW.Rotation).y;
                     localTransform.ValueRW.Rotation = quaternion.Euler(new float3(0, rotationY, 0));
-                    // animation stand
+                    cursorFollower.ValueRW.IsMoving = false;
                     continue;
                 }
-                // animation move
+                cursorFollower.ValueRW.IsMoving = true;
                 float3 directionUnit = math.normalize(path);
                 float moveSpeed = statHolder.ValueRO.Speed + 3f;
                 float3 distance = moveSpeed * deltaTime * directionUnit;

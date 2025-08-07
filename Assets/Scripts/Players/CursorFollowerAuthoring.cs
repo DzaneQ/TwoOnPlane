@@ -21,5 +21,6 @@ namespace TwoOnPlane.Players
     {
         [GhostField] public float Horizontal;
         [GhostField] public float Vertical;
+        [GhostField] public bool IsMoving;
     }
 }
