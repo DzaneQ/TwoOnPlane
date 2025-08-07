@@ -66,7 +66,6 @@ namespace TwoOnPlane.Netcode
                 buffer.DestroyEntity(request);
             }
             buffer.Playback(state.EntityManager);
-            buffer.Dispose();
         }
     }
 }
