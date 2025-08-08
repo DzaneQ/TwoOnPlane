@@ -26,9 +26,9 @@ namespace TwoOnPlane.Netcode
                 in SystemAPI.Query<RefRO<NetworkId>>().WithEntityAccess().WithNone<NetworkStreamInGame>())
             {
                 buffer.AddComponent(entity, new NetworkStreamInGame());
-                Entity requestedPlayer = buffer.CreateEntity();
-                buffer.AddComponent(requestedPlayer, new EnterGameRpc());
-                buffer.AddComponent(requestedPlayer, new SendRpcCommandRequest
+                Entity request = buffer.CreateEntity();
+                buffer.AddComponent(request, new EnterGameRpc());
+                buffer.AddComponent(request, new SendRpcCommandRequest
                 {
                     TargetConnection = entity
                 });

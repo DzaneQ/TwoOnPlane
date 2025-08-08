@@ -20,7 +20,7 @@ namespace TwoOnPlane.Players
                     {
                         FirstPlayer = GetEntity(authoring.FirstPlayerPrefab, TransformUsageFlags.Dynamic),
                         SecondPlayer = GetEntity(authoring.SecondPlayerPrefab, TransformUsageFlags.Dynamic),
-                        SpawnLocation = authoring.transform.position + (Vector3.up * 1.2f), // spawning 1.2f above the plane
+                        SpawnOrigin = authoring.transform.position + (Vector3.up * 1.2f), // spawning 1.2f above the plane
                         SpawnRange = authoring.SpawnRange
                     });
             }
@@ -31,7 +31,7 @@ namespace TwoOnPlane.Players
     {
         public Entity FirstPlayer;
         public Entity SecondPlayer;
-        public float3 SpawnLocation;
+        public float3 SpawnOrigin;
         public float SpawnRange;
     }
 }

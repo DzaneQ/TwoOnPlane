@@ -26,8 +26,8 @@ namespace TwoOnPlane.Netcode
             EntityCommandBuffer buffer = new EntityCommandBuffer(Allocator.Temp);
             PlayerSpawner spawner = SystemAPI.GetSingleton<PlayerSpawner>();
 
-            foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, Entity request) 
-                in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>>().WithEntityAccess())
+            foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, RefRO<EnterGameRpc> rpc, Entity request) 
+                in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>, RefRO<EnterGameRpc>>().WithEntityAccess())
             {
                 int playerCount = 0;
                 foreach (RefRO<GhostOwner> x in SystemAPI.Query<RefRO<GhostOwner>>())
