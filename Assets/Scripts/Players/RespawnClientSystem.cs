@@ -21,15 +21,16 @@ namespace TwoOnPlane.Players
             foreach ((RefRO<ReceiveRpcCommandRequest> requestSrc, RefRO<UpdateCursorRpc> rpc, Entity request)
                 in SystemAPI.Query<RefRO<ReceiveRpcCommandRequest>, RefRO<UpdateCursorRpc>>().WithEntityAccess())
             {
-                foreach ((RefRW<CursorFollower> cursorFollower, Entity entity)
-                    in SystemAPI.Query<RefRW<CursorFollower>>().WithEntityAccess())
+                foreach ((RefRW<CursorFollower> cursorFollower, RefRO<GhostOwner> owner)
+                    in SystemAPI.Query<RefRW<CursorFollower>, RefRO<GhostOwner>>())
                 {
-                    if (rpc.ValueRO.Player != entity) continue;
+                    if (owner.ValueRO.NetworkId != rpc.ValueRO.OwnerNetworkId) continue;
                     cursorFollower.ValueRW.Horizontal = rpc.ValueRO.Horizontal;
                     cursorFollower.ValueRW.Vertical = rpc.ValueRO.Vertical;
                     cursorFollower.ValueRW.IsMoving = false;
+                    buffer.DestroyEntity(request);
+                    break;
                 }
-                buffer.DestroyEntity(request);
             }
             buffer.Playback(state.EntityManager);
         }

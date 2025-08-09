@@ -24,8 +24,8 @@ namespace TwoOnPlane.Players
             EntityCommandBuffer buffer = new(Allocator.Temp);
             PlayerSpawner spawner = SystemAPI.GetSingleton<PlayerSpawner>();
             float range = spawner.SpawnRange;
-            foreach ((RefRW<LocalTransform> localTransform, RefRW<Respawnable> respawnable, RefRW<CursorFollower> cursorFollower, Entity entity)
-                in SystemAPI.Query<RefRW<LocalTransform>, RefRW<Respawnable>, RefRW<CursorFollower>>().WithEntityAccess())
+            foreach ((RefRW<LocalTransform> localTransform, RefRW<Respawnable> respawnable, RefRW<CursorFollower> cursorFollower, RefRO<GhostOwner> owner)
+                in SystemAPI.Query<RefRW<LocalTransform>, RefRW<Respawnable>, RefRW<CursorFollower>, RefRO<GhostOwner>>())
             {
                 // Don't respawn when character is not below the plane
                 if (localTransform.ValueRO.Position.y > -3) continue;
@@ -42,9 +42,10 @@ namespace TwoOnPlane.Players
                 {
                     Horizontal = spawnLocation.x,
                     Vertical = spawnLocation.z,
-                    Player = entity
+                    OwnerNetworkId = owner.ValueRO.NetworkId
                 });
                 buffer.AddComponent(request, new SendRpcCommandRequest());
+                UnityEngine.Debug.Log("Respawning...");
             }
             buffer.Playback(state.EntityManager);
         }
@@ -53,7 +54,7 @@ namespace TwoOnPlane.Players
         {
             public float Horizontal;
             public float Vertical;
-            public Entity Player;
+            public int OwnerNetworkId;
         }
     }
 }
